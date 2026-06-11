@@ -22,13 +22,30 @@ export default function Home() {
 
   if (loading) return <p className="text-center mt-10">Loading...</p>
   if (error) return <p className="text-center text-red-500">Error</p>
+  const getPages = () => {
+    const pages = []
+    const maxVisible = 5
 
+    if (totalPages <= maxVisible) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1)
+    }
+
+    if (page <= 3) {
+      return [1, 2, 3, "...", totalPages]
+    }
+
+    if (page >= totalPages - 2) {
+      return [1, "...", totalPages - 2, totalPages - 1, totalPages]
+    }
+
+    return [1, "...", page - 1, page, page + 1, "...", totalPages]
+  }
   return (
-    <main className="max-w-xl w-full mx-auto mt-10 space-y-6">
+    <main className="max-w-xl w-full mx-auto mt-10 space-y-6 bg-white p-6">
       <h1 className="text-2xl font-bold text-center">Task Manager</h1>
 
       <TaskForm onAdd={addTask} />
-      <TaskFilter filter={filter} setFilter={setFilter} />
+      <TaskFilter filter={filter} setFilter={setFilter} setPage={setPage} />
 
       <TaskList
         tasks={tasks}
@@ -37,17 +54,23 @@ export default function Home() {
       />
 
       {totalPages > 1 && (
-        <div className="flex justify-center space-x-2">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => setPage(i + 1)}
-              className={`px-3 py-1 rounded ${page === i + 1 ? "bg-blue-500 text-white" : "bg-gray-200"
-                }`}
-            >
-              {i + 1}
-            </button>
-          ))}
+        <div className="flex justify-center space-x-2 items-center">
+          {getPages().map((p, i) =>
+            p === "..." ? (
+              <span key={i} className="px-2">
+                ...
+              </span>
+            ) : (
+              <button
+                key={i}
+                onClick={() => setPage(p as number)}
+                className={`px-3 py-1 rounded ${page === p ? "bg-primary text-white" : "bg-gray-200"
+                  }`}
+              >
+                {p}
+              </button>
+            )
+          )}
         </div>
       )}
     </main>

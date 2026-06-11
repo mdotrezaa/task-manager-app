@@ -42,7 +42,12 @@ export const useTasks = () => {
 	const toggleTaskMutation = useMutation({
 		mutationFn: (task: Task) =>
 			updateTask({ ...task, completed: !task.completed }),
-		onSuccess: (updatedTask) => {
+		onSuccess: (_, task) => {
+			const updatedTask = {
+				...task,
+				completed: !task.completed
+			}
+
 			queryClient.setQueryData(["tasks"], (old: Task[] = []) =>
 				old.map(t => (t.id === updatedTask.id ? updatedTask : t))
 			)
@@ -57,10 +62,21 @@ export const useTasks = () => {
 
 	const deleteTaskMutation = useMutation({
 		mutationFn: deleteTaskApi,
-		onSuccess: (_, id) => {
+		onMutate: async (id: number) => {
+			await queryClient.cancelQueries({ queryKey: ["tasks"] })
+
+			const previousTasks = queryClient.getQueryData<Task[]>(["tasks"])
+
 			queryClient.setQueryData(["tasks"], (old: Task[] = []) =>
 				old.filter(t => t.id !== id)
 			)
+
+			return { previousTasks }
+		},
+		onError: (_, __, context) => {
+			if (context?.previousTasks) {
+				queryClient.setQueryData(["tasks"], context.previousTasks)
+			}
 		}
 	})
 

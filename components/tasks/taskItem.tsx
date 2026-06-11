@@ -3,6 +3,7 @@
 import { Task } from "@/types/task"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
+import { Trash2 } from "lucide-react"
 
 export const TaskItem = ({
 	task,
@@ -23,7 +24,7 @@ export const TaskItem = ({
 			</div>
 
 			<Button variant="destructive" size="sm" onClick={onDelete}>
-				Delete
+				<Trash2 size={16} />
 			</Button>
 		</div>
 	)
