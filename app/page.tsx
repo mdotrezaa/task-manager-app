@@ -30,18 +30,18 @@ export default function Home() {
       return Array.from({ length: totalPages }, (_, i) => i + 1)
     }
 
-    if (page <= 3) {
+    if (page < 3) {
       return [1, 2, 3, "...", totalPages]
     }
 
-    if (page >= totalPages - 2) {
+    if (page > totalPages - 2) {
       return [1, "...", totalPages - 2, totalPages - 1, totalPages]
     }
 
     return [1, "...", page - 1, page, page + 1, "...", totalPages]
   }
   return (
-    <main className="max-w-xl w-full mx-auto mt-10 space-y-6 bg-white p-6">
+    <main className="max-w-4xl w-full mx-auto mt-10 space-y-6 bg-white p-6">
       <h1 className="text-2xl font-bold text-center">Task Manager</h1>
 
       <TaskForm onAdd={addTask} />
@@ -64,7 +64,7 @@ export default function Home() {
               <button
                 key={i}
                 onClick={() => setPage(p as number)}
-                className={`px-3 py-1 rounded ${page === p ? "bg-primary text-white" : "bg-gray-200"
+                className={`px-3 py-1 rounded cursor-pointer ${page === p ? "bg-primary text-white" : "bg-gray-200"
                   }`}
               >
                 {p}

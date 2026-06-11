@@ -12,7 +12,7 @@ export const TaskFilter = ({
 	setPage: (page: number) => void
 }) => {
 	return (
-		<div className="flex gap-2">
+		<div className="flex justify-end gap-2">
 			<Button variant={filter === "all" ? "default" : "outline"} onClick={() => { setFilter("all"); setPage(1); }}>
 				All
 			</Button>
