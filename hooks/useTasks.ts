@@ -93,6 +93,14 @@ export const useTasks = () => {
 		page * PAGE_SIZE
 	)
 
+	const togglingId = toggleTaskMutation.isPending
+		? (toggleTaskMutation.variables?.id ?? null)
+		: null
+
+	const deletingId = deleteTaskMutation.isPending
+		? (deleteTaskMutation.variables ?? null)
+		: null
+
 	return {
 		tasks: paginatedTasks,
 		filter,
@@ -106,6 +114,9 @@ export const useTasks = () => {
 		deleteTask: (id: number) => deleteTaskMutation.mutate(id),
 
 		loading: isLoading,
+		isAdding: addTaskMutation.isPending,
+		togglingId,
+		deletingId,
 		error
 	}
 }

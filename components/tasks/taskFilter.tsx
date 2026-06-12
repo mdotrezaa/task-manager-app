@@ -12,14 +12,14 @@ export const TaskFilter = ({
 	setPage: (page: number) => void
 }) => {
 	return (
-		<div className="flex justify-end gap-2">
-			<Button variant={filter === "all" ? "default" : "outline"} onClick={() => { setFilter("all"); setPage(1); }}>
+		<div className="grid grid-cols-3 gap-2 sm:flex sm:justify-end sm:gap-2">
+			<Button className="w-full sm:w-auto" variant={filter === "all" ? "default" : "outline"} onClick={() => { setFilter("all"); setPage(1); }}>
 				All
 			</Button>
-			<Button variant={filter === "pending" ? "default" : "outline"} onClick={() => { setFilter("pending"); setPage(1); }}>
+			<Button className="w-full sm:w-auto" variant={filter === "pending" ? "default" : "outline"} onClick={() => { setFilter("pending"); setPage(1); }}>
 				Pending
 			</Button>
-			<Button variant={filter === "completed" ? "default" : "outline"} onClick={() => { setFilter("completed"); setPage(1); }}>
+			<Button className="w-full sm:w-auto" variant={filter === "completed" ? "default" : "outline"} onClick={() => { setFilter("completed"); setPage(1); }}>
 				Completed
 			</Button>
 		</div>
